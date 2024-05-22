@@ -21,17 +21,19 @@ def detect_lanes(frame):
     # Apply Hough Transform to detect lines in the image
     lines = cv2.HoughLinesP(masked_edges, 2, np.pi/180, 100, minLineLength=100, maxLineGap=50)
     
-    # Draw detected lines on the frame
-    for line in lines:
-        x1, y1, x2, y2 = line[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
+    # Check if lines were detected
+    if lines is not None:
+        # Draw detected lines on the frame
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 5)
     
     return frame
 
 # Main function
 if __name__ == "__main__":
     # Open the video file
-    cap = cv2.VideoCapture("path/to/your/video/file.mp4")
+    cap = cv2.VideoCapture("road_-_28287 (360p).mp4")
 
     # Check if the video file was successfully opened
     if not cap.isOpened():
@@ -46,10 +48,11 @@ if __name__ == "__main__":
                 break
 
             # Detect lanes in the frame
-            lane_detected_frame = detect_lanes(frame)
+            frame_with_lanes = detect_lanes(frame.copy())  # Passing a copy of frame
             
             # Display the frame with lanes detected
-            cv2.imshow('Lane Detection', lane_detected_frame)
+            cv2.namedWindow('Lane Detection', cv2.WINDOW_NORMAL)
+            cv2.imshow('Lane Detection', frame_with_lanes)
             
             # Break the loop if 'q' key is pressed
             if cv2.waitKey(1) & 0xFF == ord('q'):

@@ -31,7 +31,7 @@ def process_video(video_path):
 # Main function
 if __name__ == "__main__":
     # Path to the input video file
-    video_path = "path/to/your/video/file.mp4"
+    video_path = "road_-_28287 (360p).mp4"
 
     # Process the video
     process_video(video_path)
